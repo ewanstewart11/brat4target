@@ -40,5 +40,12 @@ def parse_logfile(filepath):
             "timestamps": np.array(content["timestamps"], dtype=np.float64),
             "values": np.array(content["values"], dtype=np.float64)
         }
-        
+
+    # Write the data as a tsv
+    with open("log_data.tsv", "w") as f:
+        for var_name, content in raw_data.items():
+            # Write each timestamp and value pair for this variable
+            for dt, val in zip(content["timestamps"], content["values"]):
+                f.write(f"{dt}\t{var_name}\t{val}\n")
+
     return mapped_arrays
