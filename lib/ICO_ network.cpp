@@ -4,10 +4,8 @@ class ICO_network{
 
     public:
 
-    ICO_network(const int& _numNeurons, const float& _learningRate){
-
-        numNeurons = _numNeurons;
-        learningRate = _learningRate;
+    ICO_network(const int _numNeurons, const float _learningRate)
+        : numNeurons(numNeurons), learningRate(learningRate), targetAngle(0.0f) {
 
         for (int i = 0; i < numNeurons; i++){
             w.push_back(1);
@@ -21,7 +19,7 @@ class ICO_network{
     }
 
     //will be called onTargetDetected
-    void processTargetAngle(const float& phi){
+    void processTargetAngle(const float phi){
         learningStep(phi);
         setTargetAngle(phi);
         for(int i = 0; i < numNeurons; i++){
@@ -30,7 +28,7 @@ class ICO_network{
     }
 
     //will be called onGyroTurn
-    void processDPhi(const float& dphi){
+    void processDPhi(const float dphi){
         setDphi(dphi);
         accumulateDPhi();
     }
@@ -58,7 +56,7 @@ class ICO_network{
 
     float targetAngle{};
 
-    void setDphi(const float& dphi){
+    void setDphi(const float dphi){
         x[0] = dphi;
     }
 
@@ -71,7 +69,7 @@ class ICO_network{
     }
 
     //I think I have derived this correctly but was a bit unsure about accumulating the inputs between target detections.
-    void learningStep(const float& phi){
+    void learningStep(const float phi){
         float error = phi - targetAngle;
         for (int i = 0; i < numNeurons; i++){
             w[i] += learningRate * error * accInputs[i];
@@ -79,7 +77,7 @@ class ICO_network{
     }
 
     //reset target angle to the detected target after the learning step
-     void setTargetAngle(const float& phi){
+     void setTargetAngle(const float phi){
         targetAngle = phi;
     }
 
