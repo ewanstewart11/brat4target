@@ -35,9 +35,9 @@ void ICO_network::setDphi(const float dphi){
 }
 
 void ICO_network::accumulateDPhi(){
-    targetAngle += x[0] * w[0] + x[1] * w[1];
     for (int i = 0; i < numNeurons; i++){
-        accInputs[i] += x[i];
+        targetAngle += x[i] * w[i];
+        accInputs[i] += x[i];   
     }
 }
 
